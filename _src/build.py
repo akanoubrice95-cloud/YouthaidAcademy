@@ -194,17 +194,25 @@ def layout(lang, slug, body):
 
 
 def _strip_jpeg(b):
+    """Retire les segments de métadonnées. En cas de structure inattendue, renvoie l'image intacte."""
+    if b[:2] != b"\xff\xd8":
+        return b
     out, i = bytearray(b[:2]), 2
-    while i < len(b) and b[i] == 0xFF:
+    while i + 4 <= len(b):
+        if b[i] != 0xFF:
+            return b
         m = b[i + 1]
-        if m == 0xDA:
+        if m == 0xFF:  # octet de remplissage
+            i += 1
+            continue
+        if m == 0xDA:  # début des données image : on copie tout le reste
             out += b[i:]
             return bytes(out)
         size = int.from_bytes(b[i + 2:i + 4], "big")
         if not (m in (0xE1, 0xED, 0xFE) or 0xE3 <= m <= 0xEF):  # retire EXIF, XMP, IPTC, commentaires
             out += b[i:i + 2 + size]
         i += 2 + size
-    return bytes(out)
+    return b
 
 
 def _strip_png(b):

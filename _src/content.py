@@ -122,16 +122,15 @@ def home(t):
         who_card("teal", "spark", t("Tu es un jeune", "You’re a young person"),
                  t("Tu as des rêves, des questions ou besoin d’un coup de pouce ? Rejoins la communauté.", "Got dreams, questions or need a boost? Join the community."),
                  "adherer.html", t("Rejoindre", "Join"),
-                 photo("qui-jeune.jpg", t("Jeune femme souriante, membre de la communauté Youthaid", "Smiling young woman, member of the Youthaid community"), "50% 25%")),
+                 photo("qui-jeune.jpg", t("Jeune étudiante souriante, sac à dos sur l’épaule, devant son campus", "Smiling young student with a backpack in front of her campus"), "50% 30%")),
         who_card("sun", "chat", t("Tu veux transmettre", "You want to give back"),
                  t("Partage ton expérience et aide un jeune à trouver sa voie en devenant mentor.", "Share your experience and help a young person find their way as a mentor."),
                  "devenir-mentor.html", t("Devenir mentor", "Become a mentor"),
-                 photo("qui-mentor.jpg", t("Mentor Youthaid Academy", "Youthaid Academy mentor"), "50% 20%")),
+                 photo("qui-mentor.jpg", t("Une intervenante transmet son savoir à une classe de jeunes", "A speaker sharing her knowledge with a class of young people"), "50% 35%")),
         who_card("red", "hand", t("Tu as du temps à donner", "You have time to give"),
                  t("Ateliers, événements, communication : rejoins nos bénévoles.", "Workshops, events, communications: join our volunteers."),
                  "devenir-benevole.html", t("Devenir bénévole", "Volunteer"),
-                 '<div class="duo">' + photo("qui-benevole2.jpg", t("Bénévole en sweat Youthaid Academy", "Volunteer in a Youthaid Academy sweatshirt"), "50% 15%")
-                 + photo("qui-benevole1.jpg", t("Bénévole en tee-shirt Youthaid Academy", "Volunteer in a Youthaid Academy T-shirt"), "50% 20%") + "</div>"),
+                 photo("qui-benevoles.jpg", t("Groupe de jeunes bénévoles souriants, en tee-shirts assortis, lors d’une action de nettoyage", "Group of smiling young volunteers in matching T-shirts during a clean-up action"), "50% 40%")),
         who_card("orange", "building", t("Tu représentes une organisation", "You represent an organisation"),
                  t("Entreprises, institutions, associations : publiez des offres et construisons ensemble.", "Companies, institutions, associations: post opportunities and let’s build together."),
                  "partenaires.html", t("Devenir partenaire", "Become a partner"), org_wall),
@@ -791,6 +790,8 @@ def legal_notice(t):
 <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — github.com.<br>Le nom de domaine est géré par Hostinger International Ltd.</p>
 <h2>Propriété intellectuelle</h2>
 <p>L’ensemble des contenus de ce site (textes, logo, éléments graphiques) est la propriété de Youthaid Academy, sauf mention contraire. Toute reproduction sans autorisation est interdite.</p>
+<h2>Crédits photos</h2>
+<p>Rubrique « Pour qui ? » de la page d’accueil : photos libres de droits issues d’<a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a> — Oluwaseyi Akinlolu, Emmanuel Ikwuegbu et Vitaly Gariev. Autres photos et affiches : Youthaid Academy.</p>
 <h2>Responsabilité</h2>
 <p>Youthaid Academy s’efforce de fournir des informations exactes et à jour, sans pouvoir garantir l’absence d’erreurs. Les liens vers d’autres sites n’engagent pas sa responsabilité.</p>""",
                  f"""<h2>Publisher</h2>
@@ -799,6 +800,8 @@ def legal_notice(t):
 <p>The site is hosted by GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA — github.com.<br>The domain name is managed by Hostinger International Ltd.</p>
 <h2>Intellectual property</h2>
 <p>All content on this site (text, logo, graphics) belongs to Youthaid Academy unless otherwise stated. Reproduction without permission is prohibited.</p>
+<h2>Photo credits</h2>
+<p>“Who is it for?” section of the home page: royalty-free photos from <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a> — Oluwaseyi Akinlolu, Emmanuel Ikwuegbu and Vitaly Gariev. Other photos and posters: Youthaid Academy.</p>
 <h2>Liability</h2>
 <p>Youthaid Academy strives to provide accurate, up-to-date information but cannot guarantee it is error-free. Links to other sites are not its responsibility.</p>""")
 

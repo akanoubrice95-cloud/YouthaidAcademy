@@ -515,11 +515,6 @@ p { margin: 0 0 1em; }
 .who-icon { position: relative; z-index: 2; margin-top: -27px; box-shadow: 0 0 0 5px #fff, 0 8px 20px rgba(18, 20, 26, .12); }
 .who-card h3 { margin-top: 4px; }
 
-/* Duo de bénévoles */
-.duo { display: grid; grid-template-columns: 1fr 1fr; height: 100%; gap: 3px; background: #fff; }
-.duo img { min-width: 0; transition: scale .9s var(--ease-out), translate .9s var(--ease-out); }
-.who-card:hover .duo img:first-child { translate: -4px 0; }
-.who-card:hover .duo img:last-child { translate: 4px 0; }
 
 /* Mur de logos partenaires */
 .org-wall {
@@ -555,11 +550,6 @@ p { margin: 0 0 1em; }
   .motion .who-card.rv .who-media img { scale: 1.25; }
   .motion .who-card.rv.in .who-media img { scale: 1; transition: scale 1.6s var(--ease-out) calc(var(--d, 0s) + .1s), translate .9s var(--ease-out), filter .6s; }
   .motion .who-card.rv.in:hover .who-media img { scale: 1.08; transition: scale .9s var(--ease-out), translate .9s var(--ease-out); }
-  .motion .who-card.rv .duo img:first-child { translate: -30% 0; }
-  .motion .who-card.rv .duo img:last-child { translate: 30% 0; }
-  .motion .who-card.rv.in .duo img { translate: 0 0; }
-  .motion .who-card.rv.in:hover .duo img:first-child { translate: -4px 0; }
-  .motion .who-card.rv.in:hover .duo img:last-child { translate: 4px 0; }
   .motion .who-card.rv .who-icon { scale: 0; rotate: -90deg; transition: scale .7s var(--ease-spring) calc(var(--d, 0s) + .7s), rotate .7s var(--ease-spring) calc(var(--d, 0s) + .7s); }
   .motion .who-card.rv.in .who-icon { scale: 1; rotate: 0deg; }
   /* Tuiles du mur de logos : apparition en cascade puis flottement */
