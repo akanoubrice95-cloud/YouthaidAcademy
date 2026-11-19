@@ -33,7 +33,6 @@ def home(t):
     hero = f"""<section class="hero">
   <div class="container hero-grid">
     <div class="hero-text">
-      <span class="eyebrow">{t("Bienvenue à Youthaid Academy", "Welcome to Youthaid Academy")}</span>
       <h1>{h1}</h1>
       <p class="lead">{t("Youthaid Academy accompagne les jeunes issus de milieux défavorisés vers la réussite scolaire, professionnelle et entrepreneuriale : des mentors qui s’engagent, des formations pour monter en compétences et des opportunités concrètes.",
                          "Youthaid Academy supports young people from disadvantaged backgrounds towards academic, professional and entrepreneurial success: committed mentors, training to build your skills and real opportunities.")}</p>
