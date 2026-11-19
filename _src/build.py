@@ -91,8 +91,8 @@ def org_jsonld(lang):
         "name": "Youthaid Academy",
         "url": SITE_URL + "/",
         "logo": f"{SITE_URL}/assets/img/logo.png",
-        "description": t("Fondation pour l’égalité des chances : mentorat, formations et opportunités pour les jeunes issus de milieux défavorisés.",
-                         "Foundation for equal opportunities: mentoring, training and opportunities for young people from disadvantaged backgrounds."),
+        "description": t("Fondation et incubateur social pour l’égalité des chances : mentorat, formations et opportunités pour les jeunes.",
+                         "Foundation and social incubator for equal opportunities: mentoring, training and opportunities for young people."),
         "email": ORG_EMAIL,
         "address": [{"@type": "PostalAddress", "addressLocality": o["city"], "addressRegion": o["region"],
                      "addressCountry": o["cc"]} for o in OFFICES],
@@ -145,6 +145,7 @@ def layout(lang, slug, body):
   <meta property="og:url" content="{canonical}">
   <meta property="og:locale" content="{"fr_FR" if lang == "fr" else "en_GB"}">
   <meta name="theme-color" content="#ffffff">
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
   <link rel="icon" href="{base}assets/img/logo-icone.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{base}assets/img/apple-touch-icon.png">
   <meta property="og:image" content="{SITE_URL}/assets/img/logo.png">
@@ -152,6 +153,7 @@ def layout(lang, slug, body):
   {org_jsonld(lang) if slug in ("index", "contact", "a-propos") else ""}
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"></div>
   <a class="skip-link" href="#contenu">{t("Aller au contenu", "Skip to content")}</a>
   <header class="site-header">
     <div class="container header-inner">

@@ -25,8 +25,8 @@ def page(slug, title, desc, accent="var(--teal)", nav=None):
 # =====================================================================
 @page("index",
       lambda t: t("Accueil", "Home"),
-      lambda t: t("Youthaid Academy accompagne les jeunes issus de milieux défavorisés vers la réussite scolaire, professionnelle et entrepreneuriale : mentorat, formations, opportunités et engagement citoyen.",
-                  "Youthaid Academy supports young people from disadvantaged backgrounds towards academic, professional and entrepreneurial success: mentoring, training, opportunities and civic engagement."))
+      lambda t: t("Youthaid Academy, fondation et incubateur social : mentorat, formations et opportunités pour aider les jeunes à développer leurs compétences, construire leur avenir et libérer leur potentiel.",
+                  "Youthaid Academy, a foundation and social incubator: mentoring, training and opportunities to help young people build their skills, shape their future and unlock their potential."))
 def home(t):
     h1 = t("Construire ton <span class='w-orange'>avenir</span>, saisir chaque <span class='w-teal'>opportunité</span>.",
            "Build your <span class='w-orange'>future</span>, seize every <span class='w-teal'>opportunity</span>.")
@@ -38,18 +38,18 @@ def home(t):
                          "Youthaid Academy supports young people from disadvantaged backgrounds towards academic, professional and entrepreneurial success: committed mentors, training to build your skills and real opportunities.")}</p>
       <div class="hero-search search-box">
         <form role="search">
-          <input type="search" class="search-input" placeholder="{t("Mentorat, formation, stage…", "Mentoring, course, internship…")}" aria-label="{t("Rechercher sur le site", "Search the site")}" autocomplete="off">
+          <input type="search" class="search-input" placeholder="{t("Mentorat, formation, stage…", "Mentoring, course, internship…")}" data-typewriter="{t("Mentorat|Formation en ligne|Stage|Alternance|Bourse d’études|Bénévolat|Événements", "Mentoring|Online course|Internship|Apprenticeship|Scholarship|Volunteering|Events")}" aria-label="{t("Rechercher sur le site", "Search the site")}" autocomplete="off">
           <button type="submit" aria-label="{t("Rechercher", "Search")}">{icon("search", 22)}</button>
         </form>
         <ul class="search-results" aria-live="polite"></ul>
       </div>
       {btns(btn("adherer.html", t("Je rejoins Youthaid", "Join Youthaid")), btn("devenir-mentor.html", t("Je deviens mentor", "Become a mentor"), "outline"))}
     </div>
-    <div class="hero-visual">
+    <div class="hero-visual" data-parallax>
       <svg class="hv-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" pathLength="100"/></svg>
       <div class="hv-disc"><img src="%BASE%assets/img/brice-akanou.jpg" alt="{t("Brice Akanou, fondateur de Youthaid Academy", "Brice Akanou, founder of Youthaid Academy")}" width="820" height="820"></div>
-      <svg class="hv-squiggle" viewBox="0 0 120 160" aria-hidden="true"><path d="M100 10c-30 10-10 45-40 55S30 110 50 125s-20 30-40 25"/></svg>
-      <svg class="hv-arc" viewBox="0 0 100 60" aria-hidden="true"><path d="M8 10c35-6 66 10 84 42"/></svg>
+      <svg class="hv-squiggle" viewBox="0 0 120 160" aria-hidden="true"><path pathLength="1" d="M100 10c-30 10-10 45-40 55S30 110 50 125s-20 30-40 25"/></svg>
+      <svg class="hv-arc" viewBox="0 0 100 60" aria-hidden="true"><path pathLength="1" d="M8 10c35-6 66 10 84 42"/></svg>
       <div class="hv-card hv-c1">
         <span class="hv-tag">Youthaid Academy</span>
         <strong>{t("Un mentor à tes côtés", "A mentor by your side")}</strong>
@@ -71,8 +71,8 @@ def home(t):
 </section>
 <section class="statement">
   <div class="container">
-    <p class="statement-big">{t("Youthaid Academy est une fondation qui permet aux jeunes de développer leurs compétences et de se connecter à des opportunités pour construire leur avenir et libérer leur potentiel.",
-                                "Youthaid Academy is a foundation that helps young people build their skills and connect with opportunities to shape their future and unlock their potential.")}</p>
+    <p class="statement-big" data-scrub>{t("Youthaid Academy est une fondation qui agit comme un <span class='mark'>incubateur social</span> : elle permet aux jeunes de développer leurs compétences et de se connecter à des opportunités pour construire leur avenir et libérer leur potentiel.",
+                                "Youthaid Academy is a foundation that acts as a <span class='mark'>social incubator</span>, helping young people build their skills and connect with opportunities to shape their future and unlock their potential.")}</p>
     <p class="lead">{t("Peu importe d’où tu viens : mentorat, formations, opportunités et engagement citoyen sont réunis au même endroit, pour que chaque jeune puisse tracer son propre chemin.",
                        "Wherever you come from: mentoring, training, opportunities and civic engagement come together in one place, so every young person can find their own path.")}</p>
   </div>
