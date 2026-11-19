@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib import (OFFICES, ORG_EMAIL, ORG_PHONE, SITE_URL, SOCIALS, brand, icon,  # noqa: E402
-                 office_line, phone_href, social_links, tr)
+                 office_line, social_links, tr, wa_icon, whatsapp_href)
 import content  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -54,7 +54,8 @@ def footer_html(t):
         return f'<div><h4>{label}</h4><ul>' + "".join(
             f'<li><a href="{href(s)}">{title_of(s, t)}</a></li>' for s in slugs) + "</ul></div>"
 
-    phone = (f'<li>{icon("chat", 18)}<a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a></li>' if ORG_PHONE else "")
+    phone = (f'<li>{wa_icon(18)}<a href="{whatsapp_href(t)}" target="_blank" rel="noopener noreferrer" '
+             f'aria-label="WhatsApp {ORG_PHONE} ({t("nouvel onglet", "new tab")})">{ORG_PHONE} <span class="wa-tag">WhatsApp</span></a></li>' if ORG_PHONE else "")
     offices = "".join(f'<li>{icon("globe", 18)}<span>{office_line(o, t)}</span></li>' for o in OFFICES)
     return f"""<footer class="site-footer">
   <div class="container">
@@ -81,6 +82,14 @@ def footer_html(t):
     </div>
   </div>
 </footer>"""
+
+
+def wa_float(t):
+    if not ORG_PHONE:
+        return ""
+    return (f'<a class="wa-float" href="{whatsapp_href(t)}" target="_blank" rel="noopener noreferrer" '
+            f'aria-label="{t("Discuter avec Youthaid Academy sur WhatsApp", "Chat with Youthaid Academy on WhatsApp")}">'
+            f'{wa_icon(30)}<span class="wa-bubble">{t("Une question ? Écris-nous sur WhatsApp", "A question? Message us on WhatsApp")}</span></a>')
 
 
 def org_jsonld(lang):
@@ -177,6 +186,7 @@ def layout(lang, slug, body):
 {body}
   </main>
 {footer_html(t)}
+  {wa_float(t)}
   <script src="{base}assets/js/main.js?v={VERSION}" defer></script>
 </body>
 </html>

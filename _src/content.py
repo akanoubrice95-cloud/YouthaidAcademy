@@ -5,7 +5,7 @@ t(fr, en) choisit le texte selon la langue.
 Ajouter une page ici l'ajoute automatiquement au site, à la recherche et au sitemap.
 """
 from lib import (LOGO_MARK, OFFICES, ORG_EMAIL, ORG_PHONE, btn, btns, card, cards, checklist, cta_band, empty, faq, field, form,
-                 icon, office_line, page_hero, phone_href, row, section, social_links, steps, todo, two_col)
+                 icon, office_line, page_hero, wa_icon, whatsapp_href, row, section, social_links, steps, todo, two_col)
 
 PAGES = []
 
@@ -635,8 +635,9 @@ def contact(t):
                  t("Don", "Donation"), t("Témoignage", "Story"), t("Presse", "Press"), t("Autre", "Other")]))
              + field("message", "Message", "textarea"),
              t("Envoyer", "Send"))
-    phone = (f'<li><span class="ci-icon">{icon("chat", 20)}</span><div><span class="ci-label">{t("Téléphone", "Phone")}</span>'
-             f'<a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a></div></li>' if ORG_PHONE else "")
+    phone = (f'<li><span class="ci-icon ci-wa">{wa_icon(22)}</span><div><span class="ci-label">{t("Téléphone · WhatsApp", "Phone · WhatsApp")}</span>'
+             f'<a href="{whatsapp_href(t)}" target="_blank" rel="noopener noreferrer">{ORG_PHONE}</a>'
+             f'<a class="wa-cta" href="{whatsapp_href(t)}" target="_blank" rel="noopener noreferrer">{wa_icon(16)} {t("Discuter sur WhatsApp", "Chat on WhatsApp")}</a></div></li>' if ORG_PHONE else "")
     offices = "".join(
         f'<li><span class="ci-icon">{icon("globe", 20)}</span><div><span class="ci-label">{t("Bureau", "Office")} · {o["city"]}</span>'
         f'<span>{office_line(o, t)}</span></div></li>' for o in OFFICES)
@@ -692,8 +693,8 @@ def legal(t, eyebrow, title, html_fr, html_en):
       lambda t: t("Mentions légales du site youthaidacademy.org.", "Legal notice for youthaidacademy.org."))
 def legal_notice(t):
     td = todo(t("à compléter", "to be completed"))
-    tel_fr = f'<br>Téléphone : <a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a>' if ORG_PHONE else ""
-    tel_en = f'<br>Phone: <a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a>' if ORG_PHONE else ""
+    tel_fr = f'<br>Téléphone / WhatsApp : <a href="{whatsapp_href(lambda fr, en: fr)}" target="_blank" rel="noopener noreferrer">{ORG_PHONE}</a>' if ORG_PHONE else ""
+    tel_en = f'<br>Phone / WhatsApp: <a href="{whatsapp_href(lambda fr, en: en)}" target="_blank" rel="noopener noreferrer">{ORG_PHONE}</a>' if ORG_PHONE else ""
     offices_fr = " · ".join(office_line(o, lambda fr, en: fr) for o in OFFICES)
     offices_en = " · ".join(office_line(o, lambda fr, en: en) for o in OFFICES)
     return legal(t, t("Informations légales", "Legal"), t("Mentions légales", "Legal notice"),

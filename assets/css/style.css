@@ -627,3 +627,50 @@ p { margin: 0 0 1em; }
 @keyframes spin-border { to { --ang: 360deg; } }
 @keyframes tile-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
 @keyframes plus-pulse { 0%, 100% { scale: 1; } 50% { scale: 1.25; } }
+
+/* ==========================================================
+   WhatsApp — bouton flottant et liens
+   ========================================================== */
+:root { --wa: #25d366; --wa-dark: #128c4b; }
+.footer-contact li > svg[viewBox] { color: var(--teal); }
+.footer-contact .wa-tag { font-size: .7rem; font-weight: 700; background: var(--wa); color: #06331b; padding: 1px 6px; border-radius: 6px; margin-left: 4px; vertical-align: 1px; }
+.ci-icon.ci-wa { background: #dcf8e7; color: var(--wa-dark); }
+.wa-cta {
+  display: inline-flex !important; align-items: center; gap: 6px; margin-top: 8px; padding: 7px 14px; border-radius: 999px;
+  background: var(--wa); color: #06331b !important; font-size: .88rem; text-decoration: none !important; transition: background .2s, transform .2s;
+}
+.wa-cta:hover { background: #1ebe5a; transform: translateY(-1px); }
+.contact-info div > a:first-of-type { display: block; }
+
+.wa-float {
+  position: fixed; z-index: 90; right: calc(22px + env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--wa); color: #fff; text-decoration: none; box-shadow: 0 10px 28px rgba(18, 140, 75, .35);
+  transition: transform .35s var(--ease-spring, ease), box-shadow .3s;
+}
+.wa-float:hover { transform: scale(1.08); box-shadow: 0 14px 34px rgba(18, 140, 75, .45); }
+.wa-float::before { /* onde qui pulse */
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--wa); opacity: 0; pointer-events: none;
+}
+.wa-bubble {
+  position: absolute; right: calc(100% + 14px); top: 50%; translate: 0 -50%; white-space: nowrap;
+  background: #fff; color: var(--ink); font-size: .9rem; font-weight: 700; padding: 10px 14px; border-radius: 14px 14px 4px 14px;
+  box-shadow: 0 10px 28px rgba(18, 20, 26, .14); opacity: 0; scale: .85; transform-origin: right center; pointer-events: none;
+  transition: opacity .3s, scale .4s var(--ease-spring, ease);
+}
+.wa-float:hover .wa-bubble, .wa-float:focus-visible .wa-bubble { opacity: 1; scale: 1; }
+@media (max-width: 600px) {
+  .wa-float { width: 54px; height: 54px; right: 16px; bottom: 16px; }
+  .wa-float svg { width: 26px; height: 26px; }
+  .wa-bubble { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .motion .wa-float { animation: wa-in .8s var(--ease-spring) 2.2s both; }
+  .motion .wa-float::before { animation: wa-ping 2.6s ease-out 3s infinite; }
+  .motion .wa-float svg { animation: wa-wiggle 6s ease-in-out 4s infinite; }
+  @media (min-width: 601px) { .motion .wa-float .wa-bubble { animation: wa-bubble 5s ease 3.4s backwards; } }
+}
+@keyframes wa-in { from { scale: 0; rotate: -180deg; } to { scale: 1; rotate: 0deg; } }
+@keyframes wa-ping { 0% { opacity: .8; scale: 1; } 100% { opacity: 0; scale: 1.7; } }
+@keyframes wa-wiggle { 0%, 88%, 100% { rotate: 0deg; } 91% { rotate: -14deg; } 94% { rotate: 12deg; } 97% { rotate: -6deg; } }
+@keyframes wa-bubble { 0% { opacity: 0; scale: .85; } 10%, 85% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: .85; } }
