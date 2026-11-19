@@ -26,32 +26,27 @@
   });
 
   // ---- Recherche ----
-  const toggle = document.querySelector('.search-toggle');
-  const panel = document.getElementById('search-panel');
-  if (toggle && panel) {
-    const input = panel.querySelector('.search-input');
-    const results = panel.querySelector('.search-results');
-    let index = null;
-    const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-    const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-    async function load() {
-      if (index) return index;
-      try {
-        const res = await fetch(base + 'assets/search-' + lang + '.json?v=' + (root.dataset.v || ''));
-        index = await res.json();
-      } catch { index = []; }
-      return index;
-    }
-    function snippet(text, pos, len) {
-      const s = Math.max(0, pos - 50), e = Math.min(text.length, pos + len + 70);
-      return (s > 0 ? '…' : '') + esc(text.slice(s, pos)) + '<mark>' + esc(text.slice(pos, pos + len)) + '</mark>' + esc(text.slice(pos + len, e)) + (e < text.length ? '…' : '');
-    }
+  const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let searchIndex = null;
+  async function loadIndex() {
+    if (searchIndex) return searchIndex;
+    try {
+      const res = await fetch(base + 'assets/search-' + lang + '.json?v=' + (root.dataset.v || ''));
+      searchIndex = await res.json();
+    } catch { searchIndex = []; }
+    return searchIndex;
+  }
+  function snippet(text, pos, len) {
+    const s = Math.max(0, pos - 50), e = Math.min(text.length, pos + len + 70);
+    return (s > 0 ? '…' : '') + esc(text.slice(s, pos)) + '<mark>' + esc(text.slice(pos, pos + len)) + '</mark>' + esc(text.slice(pos + len, e)) + (e < text.length ? '…' : '');
+  }
+  function bindSearch(input, results, form) {
     async function search() {
       const q = input.value.trim();
       if (!q) { results.innerHTML = ''; return; }
       const nq = norm(q);
-      const pages = await load();
+      const pages = await loadIndex();
       const hits = [];
       for (const p of pages) {
         const t = norm(p.title).includes(nq);
@@ -63,24 +58,44 @@
         ? hits.slice(0, 12).map(({ p, html }) => `<li><a href="${base}${p.url}"><span class="r-title">${esc(p.title)}</span><span class="r-snippet">${html}</span></a></li>`).join('')
         : `<li class="r-empty">${T.none} « ${esc(q)} »</li>`;
     }
-    function setOpen(open) {
-      panel.hidden = !open;
-      toggle.setAttribute('aria-expanded', String(open));
-      if (open) { input.focus(); load(); }
-    }
-    toggle.addEventListener('click', () => setOpen(panel.hidden));
     input.addEventListener('input', search);
-    panel.querySelector('form').addEventListener('submit', (e) => {
+    input.addEventListener('focus', loadIndex, { once: true });
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      await search();
       const first = results.querySelector('a');
       if (first) first.click();
     });
+    return search;
+  }
+
+  // Loupe en haut à droite
+  const toggle = document.querySelector('.search-toggle');
+  const panel = document.getElementById('search-panel');
+  if (toggle && panel) {
+    const input = panel.querySelector('.search-input');
+    bindSearch(input, panel.querySelector('.search-results'), panel.querySelector('form'));
+    function setOpen(open) {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open) { input.focus(); loadIndex(); }
+    }
+    toggle.addEventListener('click', () => setOpen(panel.hidden));
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); }
     });
     document.addEventListener('click', (e) => {
       if (!panel.hidden && !e.target.closest('.search-wrap')) setOpen(false);
     });
+  }
+
+  // Barre de recherche de l'accueil
+  const heroSearch = document.querySelector('.hero-search');
+  if (heroSearch) {
+    const results = heroSearch.querySelector('.search-results');
+    bindSearch(heroSearch.querySelector('.search-input'), results, heroSearch.querySelector('form'));
+    document.addEventListener('click', (e) => { if (!e.target.closest('.hero-search')) results.innerHTML = ''; });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') results.innerHTML = ''; });
   }
 
   // ---- Formulaires : ouverture de la messagerie avec le message pré-rempli ----
