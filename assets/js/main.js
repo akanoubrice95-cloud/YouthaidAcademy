@@ -198,7 +198,7 @@
 
     // 3. Apparition des blocs au défilement, en cascade
     const targets = document.querySelectorAll(
-      'main .section-head, main .grid > *, main .step, main .cta-band, main .statement .lead, main .prose, main .follow-band, main .faq details, main .empty, main .form'
+      'main .section-head, main .grid > *, main .step, main .cta-band, main .statement .lead, main .prose, main .follow-band, main .faq details, main .empty, main .form, main .tl-item, main .ev-note'
     );
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {

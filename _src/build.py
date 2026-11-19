@@ -193,6 +193,42 @@ def layout(lang, slug, body):
 """
 
 
+def _strip_jpeg(b):
+    out, i = bytearray(b[:2]), 2
+    while i < len(b) and b[i] == 0xFF:
+        m = b[i + 1]
+        if m == 0xDA:
+            out += b[i:]
+            return bytes(out)
+        size = int.from_bytes(b[i + 2:i + 4], "big")
+        if not (m in (0xE1, 0xED, 0xFE) or 0xE3 <= m <= 0xEF):  # retire EXIF, XMP, IPTC, commentaires
+            out += b[i:i + 2 + size]
+        i += 2 + size
+    return bytes(out)
+
+
+def _strip_png(b):
+    out, i = bytearray(b[:8]), 8
+    while i < len(b):
+        size = int.from_bytes(b[i:i + 4], "big")
+        if b[i + 4:i + 8] not in (b"tEXt", b"iTXt", b"zTXt", b"eXIf", b"tIME"):
+            out += b[i:i + 12 + size]
+        i += 12 + size
+    return bytes(out)
+
+
+def strip_image_metadata():
+    """Retire les métadonnées cachées (EXIF, identifiants Canva, GPS…) des images publiées."""
+    for f in (ROOT / "assets" / "img").iterdir():
+        ext = f.suffix.lower()
+        if ext not in (".jpg", ".jpeg", ".png"):
+            continue
+        raw = f.read_bytes()
+        clean = _strip_jpeg(raw) if ext in (".jpg", ".jpeg") else _strip_png(raw)
+        if clean != raw:
+            f.write_bytes(clean)
+
+
 def page_text(body):
     text = re.sub(r"<(script|style|svg)[^>]*>.*?</\1>", " ", body, flags=re.S)
     text = re.sub(r"<[^>]+>", " ", text)
@@ -200,6 +236,7 @@ def page_text(body):
 
 
 def main():
+    strip_image_metadata()
     written = []
     for lang in ("fr", "en"):
         t = tr(lang)

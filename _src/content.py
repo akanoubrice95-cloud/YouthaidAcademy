@@ -45,27 +45,20 @@ def home(t):
       </div>
       {btns(btn("adherer.html", t("Je rejoins Youthaid", "Join Youthaid")), btn("devenir-mentor.html", t("Je deviens mentor", "Become a mentor"), "outline"))}
     </div>
-    <div class="hero-visual" data-parallax>
-      <svg class="hv-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" pathLength="100"/></svg>
-      <div class="hv-disc"><img src="%BASE%assets/img/brice-akanou.jpg" alt="{t("Brice Akanou, fondateur de Youthaid Academy", "Brice Akanou, founder of Youthaid Academy")}" width="820" height="820"></div>
-      <svg class="hv-squiggle" viewBox="0 0 120 160" aria-hidden="true"><path pathLength="1" d="M100 10c-30 10-10 45-40 55S30 110 50 125s-20 30-40 25"/></svg>
-      <svg class="hv-arc" viewBox="0 0 100 60" aria-hidden="true"><path pathLength="1" d="M8 10c35-6 66 10 84 42"/></svg>
-      <div class="hv-card hv-c1">
-        <span class="hv-tag">Youthaid Academy</span>
-        <strong>{t("Un mentor à tes côtés", "A mentor by your side")}</strong>
-        <span class="hv-dot" style="background:var(--teal)">{icon("users", 18)}</span>
+    <div class="hero-visual hv2" data-parallax>
+      <div class="hv-stripes" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <figure class="hv-arch">
+        <img src="%BASE%assets/img/fondateur.jpg" alt="{t("Brice Akanou, fondateur de Youthaid Academy, en sweat Youthaid", "Brice Akanou, founder of Youthaid Academy, wearing a Youthaid sweatshirt")}" width="750" height="1000">
+      </figure>
+      <div class="hv-badge" aria-hidden="true">
+        <svg viewBox="0 0 200 200"><defs><path id="hv-c" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+          <text><textPath href="#hv-c">{t("YOUTHAID ACADEMY • INCUBATEUR SOCIAL • ", "YOUTHAID ACADEMY • SOCIAL INCUBATOR • ")}</textPath></text></svg>
+        {LOGO_MARK}
       </div>
-      <div class="hv-card hv-c2">
-        <span class="hv-dot" style="background:var(--sun)">{icon("star", 18)}</span>
-        <strong class="hv-big">Brice Akanou</strong>
-        <span>{t("Fondateur", "Founder")}</span>
-      </div>
-      <div class="hv-card hv-c3">
-        <span class="hv-tag">{t("Formations", "Training")}</span>
-        <strong>Youthaid Academy’s Compétences</strong>
-        <p>{t("Des cours en ligne structurés, des quiz et des attestations pour avancer.", "Structured online courses, quizzes and certificates to move forward.")}</p>
-        <div class="hv-pills"><span>{t("En ligne", "Online")}</span><span>Quiz</span><span>{t("Attestation", "Certificate")}</span></div>
-      </div>
+      <figcaption class="hv-founder">
+        <span class="hv-quote">{t("« Le talent est partout. Notre rôle : lui ouvrir les portes. »", "“Talent is everywhere. Our job: opening the doors for it.”")}</span>
+        <span class="hv-sign"><strong>Brice Akanou</strong> · {t("Fondateur", "Founder")}</span>
+      </figcaption>
     </div>
   </div>
 </section>
@@ -155,9 +148,11 @@ def home(t):
         head=(t("Nos engagements", "Our commitments"), t("Ce qui nous guide", "What guides us")))
 
     news = section(
-        '<div class="grid grid-3">' + news_card(t) + "</div>"
-        + btns(btn("actualites.html", t("Toutes les actualités", "All news"), "outline")),
-        head=(t("Actualités", "News"), t("Les dernières nouvelles", "Latest news")))
+        '<div class="grid grid-3">' + "".join(action_card(t, a, f"evenements.html#{a['id']}") for a in ACTIONS) + news_card(t) + "</div>"
+        + btns(btn("evenements.html", t("Tous nos événements", "All our events")), btn("actualites.html", t("Toutes les actualités", "All news"), "outline")),
+        head=(t("Nos actions", "Our work"), t("Ce que nous faisons déjà", "What we’re already doing"),
+              t("Des sessions concrètes pour aider les jeunes à décrocher les plus grandes bourses internationales.",
+                "Hands-on sessions to help young people win the world’s top international scholarships.")))
 
     cta = section(cta_band(
         t("Chaque don ouvre une porte", "Every donation opens a door"),
@@ -165,6 +160,77 @@ def home(t):
         btn("don.html", t("Faire un don", "Donate"), "light") + btn("partenaires.html", t("Devenir partenaire", "Become a partner"), "dark")))
 
     return hero + what + how + who + values + news + cta
+
+
+# =====================================================================
+# ACTIONS RÉELLES (sources : affiches officielles Youthaid Academy)
+# =====================================================================
+ACTIONS = [
+    dict(
+        id="chevening-2027-2028", iso="2026-09-08", img="chevening-2027-session.jpg",
+        day=("Mardi 8 septembre 2026", "Tuesday 8 September 2026"), short=("08 sept. 2026", "8 Sep 2026"),
+        title=("Session d’information : UK Chevening Scholarship 2027-2028", "Information session: UK Chevening Scholarship 2027-2028"),
+        text=("Une session en ligne pour découvrir tout ce qu’il faut pour réussir à cette prestigieuse bourse du gouvernement britannique.",
+              "An online session to discover everything you need to succeed in applying for this prestigious UK government scholarship."),
+        people=[("Organisé par", "Organised by", "Brice Akanou", ("Fondateur de Youthaid Academy", "Founder of Youthaid Academy")),
+                ("Présenté par", "Presented by", "Kouamé Franck Alassane", ("Fondateur de Paradigm Youth Connect", "Founder of Paradigm Youth Connect")),
+                ("Présenté par", "Presented by", "Anne Létissia Konan", ("Spécialiste en communication", "Communications specialist"))],
+    ),
+    dict(
+        id="chevening-2026-2027", iso="2026-08-10", img="chevening-2026-session.jpg",
+        day=("Lundi 10 août 2026", "Monday 10 August 2026"), short=("10 août 2026", "10 Aug 2026"),
+        title=("Session d’information : UK Chevening Scholarship 2026-2027", "Information session: UK Chevening Scholarship 2026-2027"),
+        text=("Une première session en ligne pour comprendre la bourse Chevening et préparer une candidature solide.",
+              "A first online session to understand the Chevening scholarship and prepare a strong application."),
+        people=[("Organisé par", "Organised by", "Brice Akanou", ("Fondateur de Youthaid Academy · CCI Program Scholar · Pépite France", "Founder of Youthaid Academy · CCI Program Scholar · Pépite France")),
+                ("Présenté par", "Presented by", "Timothée Kouamé", ("Strategic Project Manager · Chevening Scholar · CCI Program Scholar", "Strategic Project Manager · Chevening Scholar · CCI Program Scholar"))],
+    ),
+]
+
+
+def action_facts(t, a):
+    return (f'<ul class="ev-facts">'
+            f'<li>{icon("calendar", 18)}<span>{t(*a["day"])}</span></li>'
+            f'<li>{icon("spark", 18)}<span>19h30 GMT · {t("heure d’Abidjan", "Abidjan time")}</span></li>'
+            f'<li>{icon("globe", 18)}<span>{t("En ligne · Google Meet", "Online · Google Meet")}</span></li></ul>')
+
+
+def action_people(t, a):
+    return '<ul class="ev-people">' + "".join(
+        f'<li><span class="ev-role">{t(fr, en)}</span><strong>{name}</strong><small>{t(*title)}</small></li>'
+        for fr, en, name, title in a["people"]) + "</ul>"
+
+
+def action_card(t, a, link):
+    """Carte compacte (accueil)."""
+    return f"""<article class="card hover ev-card">
+  <a class="ev-media" href="{link}" tabindex="-1" aria-hidden="true"><img src="%BASE%assets/img/{a['img']}" alt="" loading="lazy" decoding="async"><span class="ev-date">{t(*a['short'])}</span></a>
+  <div class="meta">{t("Événement · En ligne", "Event · Online")}</div>
+  <h3>{t(*a['title'])}</h3>
+  <p>{t(*a['text'])}</p>
+  <a class="card-link" href="{link}">{t("Voir l’événement", "See the event")} →</a>
+</article>"""
+
+
+def action_timeline(t):
+    """Frise des événements passés (page Événements)."""
+    items = []
+    for a in ACTIONS:
+        alt = t(f"Affiche officielle : {a['title'][0]}, {a['day'][0]}", f"Official poster: {a['title'][1]}, {a['day'][1]}")
+        items.append(f"""<article class="tl-item" id="{a['id']}">
+  <div class="tl-dot" aria-hidden="true"></div>
+  <div class="tl-card card">
+    <a class="tl-poster" href="%BASE%assets/img/{a['img']}" target="_blank" rel="noopener"><img src="%BASE%assets/img/{a['img']}" alt="{alt}" loading="lazy" decoding="async" width="1200" height="675"><span class="tl-zoom">{icon("search", 18)} {t("Voir l’affiche", "View poster")}</span></a>
+    <div class="tl-body">
+      <span class="tl-tag">{t("Bourses internationales", "International scholarships")}</span>
+      <h3>{t(*a['title'])}</h3>
+      <p>{t(*a['text'])}</p>
+      {action_facts(t, a)}
+      {action_people(t, a)}
+    </div>
+  </div>
+</article>""")
+    return '<div class="timeline">' + "".join(items) + "</div>"
 
 
 def news_card(t):
@@ -436,7 +502,14 @@ def events(t):
                                "Upcoming events will be announced here, with online registration and e-tickets."),
                              btns(btn("adherer.html", t("Être informé", "Stay informed")))),
                        cls="section-soft", head=(t("Agenda", "Calendar"), t("Prochains événements", "Upcoming events")))
-    return intro + kinds + upcoming
+    past = section(action_timeline(t)
+                   + f'<p class="ev-note">{icon("shield", 18)} <span>' + t(
+                       "Les candidatures à la bourse Chevening se font uniquement et gratuitement sur le site officiel <a href=\"https://www.chevening.org\" target=\"_blank\" rel=\"noopener\">chevening.org</a>. Youthaid Academy accompagne les candidats mais ne représente pas Chevening.",
+                       "Chevening applications are made only, and free of charge, on the official website <a href=\"https://www.chevening.org\" target=\"_blank\" rel=\"noopener\">chevening.org</a>. Youthaid Academy supports applicants but does not represent Chevening.") + "</span></p>",
+                   head=(t("Ils ont eu lieu", "Past events"), t("Nos événements passés", "Our past events"),
+                         t("Retour sur nos sessions d’information consacrées aux bourses internationales.",
+                           "A look back at our information sessions on international scholarships.")))
+    return intro + past + upcoming + kinds
 
 
 # =====================================================================
@@ -582,7 +655,21 @@ def news(t):
         "Our latest news, programmes and opportunities are also shared on our official channels.")}</p></div>
   {social_links(t, "socials socials-lg")}
 </div>""", cls="section-soft")
-    return intro + article + follow
+    chev = section(f"""<article class="prose" id="programme-chevening">
+  <p class="meta" style="color:var(--muted)">08/09/2026 · {t("Bourses internationales", "International scholarships")}</p>
+  <h2 style="margin-top:0">{t("Programme Chevening : deux sessions pour préparer les jeunes à la bourse britannique", "Chevening programme: two sessions to prepare young people for the UK scholarship")}</h2>
+  <figure class="article-figure"><img src="%BASE%assets/img/chevening-2027-teaser.jpg" alt="{t("Affiche Youthaid Academy : UK Chevening Scholarship 2027-2028", "Youthaid Academy poster: UK Chevening Scholarship 2027-2028")}" loading="lazy" decoding="async" width="1200" height="675"></figure>
+  <p>{t("Youthaid Academy a organisé deux sessions d’information en ligne consacrées à la bourse Chevening, le programme de bourses d’excellence du gouvernement britannique.",
+        "Youthaid Academy organised two online information sessions on the Chevening scholarship, the UK government’s flagship scholarship programme.")}</p>
+  <ul>
+    <li><strong>{t("Lundi 10 août 2026", "Monday 10 August 2026")}</strong> — UK Chevening Scholarship 2026-2027, {t("présentée par Timothée Kouamé (Chevening Scholar)", "presented by Timothée Kouamé (Chevening Scholar)")}.</li>
+    <li><strong>{t("Mardi 8 septembre 2026", "Tuesday 8 September 2026")}</strong> — UK Chevening Scholarship 2027-2028, {t("présentée par Kouamé Franck Alassane (fondateur de Paradigm Youth Connect) et Anne Létissia Konan (spécialiste en communication)", "presented by Kouamé Franck Alassane (founder of Paradigm Youth Connect) and Anne Létissia Konan (communications specialist)")}.</li>
+  </ul>
+  <p>{t("Les deux sessions, organisées par Brice Akanou, fondateur de Youthaid Academy, se sont tenues sur Google Meet à 19h30 GMT (heure d’Abidjan).",
+        "Both sessions, organised by Brice Akanou, founder of Youthaid Academy, took place on Google Meet at 19:30 GMT (Abidjan time).")}</p>
+  {btns(btn("evenements.html#chevening-2027-2028", t("Voir les détails des sessions", "See session details")))}
+</article>""")
+    return intro + chev + article + follow
 
 
 @page("faq",
