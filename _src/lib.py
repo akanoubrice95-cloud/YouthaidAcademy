@@ -6,7 +6,7 @@ SITE_URL = "https://youthaidacademy.org"
 
 # ---------- Coordonnées officielles de la fondation ----------
 ORG_EMAIL = "contact@youthaidacademy.org"
-ORG_PHONE = ""  # format international, ex. "+33 7 66 16 10 XX" — vide = non affiché
+ORG_PHONE = "+33 7 66 16 10 14"
 OFFICES = [
     dict(district="Cocody", city="Abidjan", region="District autonome d’Abidjan",
          country_fr="Côte d’Ivoire", country_en="Côte d’Ivoire", cc="CI"),
