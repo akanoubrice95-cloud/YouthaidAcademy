@@ -57,7 +57,7 @@ def footer_html(t):
   <div class="container">
     <div class="footer-grid">
       <div>
-        {brand("./")}
+        {brand("./", dark=True)}
         <p>{t("Agir pour l’égalité des chances : accompagner les jeunes vers la réussite scolaire, professionnelle et entrepreneuriale.",
               "Acting for equal opportunities: supporting young people towards academic, professional and entrepreneurial success.")}</p>
       </div>
@@ -109,7 +109,9 @@ def layout(lang, slug, body):
   <meta property="og:url" content="{canonical}">
   <meta property="og:locale" content="{"fr_FR" if lang == "fr" else "en_GB"}">
   <meta name="theme-color" content="#ffffff">
-  <link rel="icon" href="{base}assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="{base}assets/img/logo-icone.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{base}assets/img/apple-touch-icon.png">
+  <meta property="og:image" content="{SITE_URL}/assets/img/logo.png">
   <link rel="stylesheet" href="{base}assets/css/style.css?v={VERSION}">
 </head>
 <body>
@@ -158,7 +160,7 @@ def main():
         for slug, page in PAGES.items():
             body = page["render"](t)
             name = "index.html" if slug == "index" else f"{slug}.html"
-            out = layout(lang, slug, body)
+            out = layout(lang, slug, body).replace("%BASE%", "" if lang == "fr" else "../")
             if slug == "404":
                 # La page 404 peut s'afficher à n'importe quelle adresse : liens absolus.
                 out = re.sub(r'(href|src)="(?!https?:|/|#|mailto:)(?:\./)?', r'\1="/', out)

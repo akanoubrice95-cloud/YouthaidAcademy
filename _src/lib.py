@@ -25,21 +25,16 @@ def tr(lang):
     return lambda fr, en: fr if lang == "fr" else en
 
 
-# Logo : silhouette d'un jeune qui s'élance, aux couleurs de Youthaid Academy.
-LOGO_MARK = """<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-  <circle cx="66" cy="19" r="12" fill="#f6a823"/>
-  <path d="M24 30 C 22 52, 40 66, 62 63" fill="none" stroke="#16b3c5" stroke-width="13" stroke-linecap="round"/>
-  <path d="M92 16 C 100 38, 88 60, 62 63" fill="none" stroke="#f6a823" stroke-width="13" stroke-linecap="round"/>
-  <path d="M14 86 C 28 72, 48 70, 60 78" fill="none" stroke="#ee2a4f" stroke-width="13" stroke-linecap="round"/>
-  <path d="M54 76 C 76 82, 82 104, 68 114" fill="none" stroke="#ff5b14" stroke-width="13" stroke-linecap="round"/>
-</svg>"""
+# Logos officiels (assets/img). %BASE% est remplacé par le chemin vers la racine du site.
+# logo.png = logo principal (logo 1) ; logo-blanc.png = version texte blanc pour fonds sombres ;
+# logo-icone.svg = le personnage seul (illustrations, icône d'onglet).
+LOGO_MARK = '<img class="logo-mark" src="%BASE%assets/img/logo-icone.svg" alt="">'
 
 
-def brand(home):
-    return (
-        f'<a class="brand" href="{home}" aria-label="Youthaid Academy">{LOGO_MARK}'
-        '<span class="brand-text"><span class="b1">Youthaid</span><span class="b2">academy</span></span></a>'
-    )
+def brand(home, dark=False):
+    src = "logo-blanc.png" if dark else "logo.png"
+    return (f'<a class="brand" href="{home}">'
+            f'<img src="%BASE%assets/img/{src}" alt="Youthaid Academy" width="720" height="348"></a>')
 
 
 _I = {

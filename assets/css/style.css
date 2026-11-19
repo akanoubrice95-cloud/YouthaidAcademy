@@ -89,12 +89,11 @@ p { margin: 0 0 1em; }
   border-bottom: 1px solid var(--line);
   padding-top: env(safe-area-inset-top, 0px);
 }
-.header-inner { display: flex; align-items: center; gap: 16px; min-height: 72px; }
+.header-inner { display: flex; align-items: center; gap: 16px; min-height: 84px; }
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); flex-shrink: 0; }
-.brand svg { width: 40px; height: 40px; }
-.brand-text { display: flex; flex-direction: column; line-height: 0.9; }
-.brand-text .b1 { font-size: 1.05rem; font-weight: 500; letter-spacing: 0.01em; }
-.brand-text .b2 { font-family: var(--font-brand); font-size: 1.45rem; letter-spacing: 0.02em; }
+.brand img { height: 62px; width: auto; display: block; }
+.site-footer .brand img { height: 60px; }
+.logo-mark { display: block; width: 100%; height: 100%; object-fit: contain; }
 
 .main-nav { margin-left: auto; }
 .main-nav > ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; }
@@ -311,7 +310,7 @@ p { margin: 0 0 1em; }
 /* Article */
 .post-card .meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
 .post-visual { aspect-ratio: 16 / 9; border-radius: 14px; margin-bottom: 18px; overflow: hidden; background: var(--teal-soft); display: grid; place-items: center; }
-.post-visual svg { height: 72%; width: auto; }
+.post-visual .logo-mark { height: 72%; width: auto; }
 
 /* ---------- Pied de page ---------- */
 .site-footer { background: var(--ink); color: #b7bbc4; padding: 64px 0 calc(28px + env(safe-area-inset-bottom, 0px)); font-size: 0.95rem; }
@@ -356,8 +355,7 @@ p { margin: 0 0 1em; }
 @media (max-width: 600px) {
   body { font-size: 16px; }
   .grid-2, .grid-3, .grid-4, .steps, .form-row { grid-template-columns: 1fr; }
-  .brand-text .b1 { font-size: 0.95rem; }
-  .brand-text .b2 { font-size: 1.25rem; }
+  .brand img { height: 42px; }
   .header-tools .lang-switch { width: 38px; height: 38px; }
   .float-card { font-size: 0.8rem; padding: 8px 10px; }
   .float-card .dot { width: 28px; height: 28px; }
