@@ -4,6 +4,43 @@ from pathlib import Path
 
 SITE_URL = "https://youthaidacademy.org"
 
+# ---------- Coordonnées officielles de la fondation ----------
+ORG_EMAIL = "contact@youthaidacademy.org"
+ORG_PHONE = ""  # format international, ex. "+33 7 66 16 10 XX" — vide = non affiché
+OFFICES = [
+    dict(district="Cocody", city="Abidjan", region="District autonome d’Abidjan",
+         country_fr="Côte d’Ivoire", country_en="Côte d’Ivoire", cc="CI"),
+    dict(district="", city="Clermont-Ferrand", region="Auvergne-Rhône-Alpes",
+         country_fr="France", country_en="France", cc="FR"),
+]
+
+
+def office_line(o, t):
+    """« Cocody, Abidjan, Côte d’Ivoire » / « Clermont-Ferrand, France »."""
+    return ", ".join(x for x in (o["district"], o["city"], t(o["country_fr"], o["country_en"])) if x)
+SOCIALS = [  # (nom, url, tracé SVG 24x24)
+    ("LinkedIn", "https://www.linkedin.com/company/youthaidacademy/",
+     '<path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.83v1.54h.05c.53-1.01 1.84-2.07 3.79-2.07 4.05 0 4.8 2.67 4.8 6.13V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21h-4z"/>'),
+    ("Facebook", "https://www.facebook.com/p/Youthaid-Academy-100067297629689/",
+     '<path fill="currentColor" d="M13.5 21v-7.5h2.53l.38-2.94H13.5V8.69c0-.85.24-1.43 1.46-1.43h1.55V4.63A20.6 20.6 0 0 0 14.24 4.5c-2.24 0-3.78 1.37-3.78 3.89v2.17H7.93v2.94h2.53V21z"/>'),
+    ("Instagram", "https://www.instagram.com/youthaid.academy/",
+     '<rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/>'),
+]
+
+
+def social_links(t, cls="socials"):
+    """Pastilles des réseaux sociaux officiels (s'ouvrent dans un nouvel onglet)."""
+    items = "".join(
+        f'<a href="{url}" target="_blank" rel="noopener noreferrer me" '
+        f'aria-label="{name} — Youthaid Academy ({t("nouvel onglet", "new tab")})" title="{name}">'
+        f'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">{svg}</svg></a>'
+        for name, url, svg in SOCIALS)
+    return f'<div class="{cls}">{items}</div>'
+
+
+def phone_href(num):
+    return "tel:" + "".join(c for c in num if c.isdigit() or c == "+")
+
 
 def _read_contact_email():
     """Adresse de réception des formulaires : variable CONTACT_EMAIL (environnement ou .env)."""
@@ -14,7 +51,7 @@ def _read_contact_email():
         for line in env.read_text(encoding="utf-8").splitlines():
             if line.strip().startswith("CONTACT_EMAIL="):
                 return line.split("=", 1)[1].strip().strip('"').strip("'")
-    return ""
+    return ORG_EMAIL
 
 
 CONTACT_EMAIL = _read_contact_email()

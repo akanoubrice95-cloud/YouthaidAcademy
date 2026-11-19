@@ -13,7 +13,8 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lib import SITE_URL, brand, icon, tr  # noqa: E402
+from lib import (OFFICES, ORG_EMAIL, ORG_PHONE, SITE_URL, SOCIALS, brand, icon,  # noqa: E402
+                 office_line, phone_href, social_links, tr)
 import content  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -53,6 +54,8 @@ def footer_html(t):
         return f'<div><h4>{label}</h4><ul>' + "".join(
             f'<li><a href="{href(s)}">{title_of(s, t)}</a></li>' for s in slugs) + "</ul></div>"
 
+    phone = (f'<li>{icon("chat", 18)}<a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a></li>' if ORG_PHONE else "")
+    offices = "".join(f'<li>{icon("globe", 18)}<span>{office_line(o, t)}</span></li>' for o in OFFICES)
     return f"""<footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -60,6 +63,12 @@ def footer_html(t):
         {brand("./", dark=True)}
         <p>{t("Agir pour l’égalité des chances : accompagner les jeunes vers la réussite scolaire, professionnelle et entrepreneuriale.",
               "Acting for equal opportunities: supporting young people towards academic, professional and entrepreneurial success.")}</p>
+        <ul class="footer-contact">
+          <li>{icon("mail", 18)}<a href="mailto:{ORG_EMAIL}">{ORG_EMAIL}</a></li>
+          {phone}
+          {offices}
+        </ul>
+        {social_links(t, "socials socials-dark")}
       </div>
       {col(t("Découvrir", "Discover"), ["a-propos", "mission", "impact", "partenaires", "actualites"])}
       {col(t("Nos actions", "What we do"), ["programmes", "mentorat", "formations", "opportunites", "evenements"])}
@@ -72,6 +81,33 @@ def footer_html(t):
     </div>
   </div>
 </footer>"""
+
+
+def org_jsonld(lang):
+    t = tr(lang)
+    data = {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Youthaid Academy",
+        "url": SITE_URL + "/",
+        "logo": f"{SITE_URL}/assets/img/logo.png",
+        "description": t("Fondation pour l’égalité des chances : mentorat, formations et opportunités pour les jeunes issus de milieux défavorisés.",
+                         "Foundation for equal opportunities: mentoring, training and opportunities for young people from disadvantaged backgrounds."),
+        "email": ORG_EMAIL,
+        "address": [{"@type": "PostalAddress", "addressLocality": o["city"], "addressRegion": o["region"],
+                     "addressCountry": o["cc"]} for o in OFFICES],
+        "areaServed": ["CI", "FR"],
+        "founder": {"@type": "Person", "name": "Brice Akanou"},
+        "sameAs": [url for _, url, _ in SOCIALS],
+    }
+    if ORG_PHONE:
+        data["telephone"] = ORG_PHONE
+        data["contactPoint"] = {"@type": "ContactPoint", "contactType": "customer support", "email": ORG_EMAIL,
+                                "telephone": ORG_PHONE, "availableLanguage": ["French", "English"]}
+    else:
+        data["contactPoint"] = {"@type": "ContactPoint", "contactType": "customer support", "email": ORG_EMAIL,
+                                "availableLanguage": ["French", "English"]}
+    return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + "</script>"
 
 
 def layout(lang, slug, body):
@@ -113,6 +149,7 @@ def layout(lang, slug, body):
   <link rel="apple-touch-icon" href="{base}assets/img/apple-touch-icon.png">
   <meta property="og:image" content="{SITE_URL}/assets/img/logo.png">
   <link rel="stylesheet" href="{base}assets/css/style.css?v={VERSION}">
+  {org_jsonld(lang) if slug in ("index", "contact", "a-propos") else ""}
 </head>
 <body>
   <a class="skip-link" href="#contenu">{t("Aller au contenu", "Skip to content")}</a>

@@ -404,3 +404,35 @@ p { margin: 0 0 1em; }
 }
 
 .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* Coordonnées & réseaux sociaux */
+.socials { display: flex; flex-wrap: wrap; gap: 10px; }
+.socials a {
+  width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line); color: var(--ink); background: #fff; text-decoration: none;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.socials a:hover, .socials a:focus-visible { background: var(--teal); border-color: var(--teal); color: #fff; transform: translateY(-2px); }
+.socials-lg a { width: 48px; height: 48px; }
+.socials-lg svg { width: 22px; height: 22px; }
+.site-footer .socials-dark { margin-top: 18px; }
+.site-footer .socials-dark a { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); color: #fff; }
+.site-footer .socials-dark a:hover { background: var(--teal); border-color: var(--teal); }
+.footer-contact { margin-top: 16px !important; }
+.footer-contact li { display: flex; align-items: flex-start; gap: 10px; }
+.footer-contact svg { flex: none; margin-top: 3px; color: var(--teal); }
+.footer-contact a { color: #fff; }
+
+.contact-side h3 { margin-top: 30px; }
+.contact-side .muted { color: var(--muted); }
+.contact-info { list-style: none; padding: 8px 24px !important; margin: 22px 0 0; }
+.contact-info li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.contact-info li:last-child { border-bottom: 0; }
+.ci-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; flex: none; background: var(--teal-soft); color: #0f8a9c; }
+.ci-label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.contact-info a { color: var(--ink); font-weight: 700; text-decoration: none; word-break: break-word; }
+.contact-info a:hover { color: #0f8a9c; text-decoration: underline; }
+
+.follow-band { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.follow-band h2 { margin: 0 0 6px; }
+.follow-band p { margin: 0; color: var(--muted); max-width: 620px; }

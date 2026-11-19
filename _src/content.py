@@ -4,8 +4,8 @@ Chaque page : slug (nom du fichier), title, desc (description pour Google), rend
 t(fr, en) choisit le texte selon la langue.
 Ajouter une page ici l'ajoute automatiquement au site, à la recherche et au sitemap.
 """
-from lib import (LOGO_MARK, btn, btns, card, cards, checklist, cta_band, empty, faq, field, form,
-                 icon, page_hero, row, section, steps, todo, two_col)
+from lib import (LOGO_MARK, OFFICES, ORG_EMAIL, ORG_PHONE, btn, btns, card, cards, checklist, cta_band, empty, faq, field, form,
+                 icon, office_line, page_hero, phone_href, row, section, social_links, steps, todo, two_col)
 
 PAGES = []
 
@@ -555,7 +555,13 @@ def news(t):
   <p>{t("Restez connectés, et n’hésitez pas à nous écrire !", "Stay tuned, and feel free to get in touch!")}</p>
   {btns(btn("contact.html", t("Nous écrire", "Write to us"), "outline"))}
 </article>""")
-    return intro + article
+    follow = section(f"""<div class="follow-band">
+  <div><h2>{t("Suivez Youthaid Academy", "Follow Youthaid Academy")}</h2>
+  <p>{t("Nos dernières actualités, programmes et opportunités sont aussi partagés sur nos réseaux officiels.",
+        "Our latest news, programmes and opportunities are also shared on our official channels.")}</p></div>
+  {social_links(t, "socials socials-lg")}
+</div>""", cls="section-soft")
+    return intro + article + follow
 
 
 @page("faq",
@@ -608,12 +614,25 @@ def contact(t):
                  t("Don", "Donation"), t("Témoignage", "Story"), t("Presse", "Press"), t("Autre", "Other")]))
              + field("message", "Message", "textarea"),
              t("Envoyer", "Send"))
-    side = (f"<div><h2>{t('Nous joindre', 'Reach us')}</h2>"
-            f"<p>{t('Nous répondons généralement sous quelques jours.', 'We usually reply within a few days.')}</p>"
-            + cards([
-                dict(ic="chat", title=t("Questions fréquentes", "FAQ"), text=t("La réponse est peut-être déjà là.", "The answer may already be there."), link="faq.html", link_label=t("Voir la FAQ", "See the FAQ")),
-                dict(ic="building", title=t("Partenaires", "Partners"), text=t("Découvrez comment nous rejoindre.", "Find out how to join us."), link="partenaires.html", link_label=t("En savoir plus", "Learn more")),
-            ], cols=2) + "</div>")
+    phone = (f'<li><span class="ci-icon">{icon("chat", 20)}</span><div><span class="ci-label">{t("Téléphone", "Phone")}</span>'
+             f'<a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a></div></li>' if ORG_PHONE else "")
+    offices = "".join(
+        f'<li><span class="ci-icon">{icon("globe", 20)}</span><div><span class="ci-label">{t("Bureau", "Office")} · {o["city"]}</span>'
+        f'<span>{office_line(o, t)}</span></div></li>' for o in OFFICES)
+    side = f"""<div class="contact-side">
+  <h2>{t("Nos coordonnées", "Our details")}</h2>
+  <p>{t("Une question, un projet de partenariat, une demande presse ? Notre équipe vous répond en français et en anglais, dans les meilleurs délais.",
+        "A question, a partnership project, a press request? Our team replies in French and English as soon as possible.")}</p>
+  <ul class="contact-info card">
+    <li><span class="ci-icon">{icon("mail", 20)}</span><div><span class="ci-label">Email</span><a href="mailto:{ORG_EMAIL}">{ORG_EMAIL}</a></div></li>
+    {phone}
+    {offices}
+  </ul>
+  <h3>{t("Suivez-nous", "Follow us")}</h3>
+  <p class="muted">{t("Actualités, programmes et opportunités : rejoignez la communauté sur nos réseaux officiels.",
+                      "News, programmes and opportunities: join the community on our official channels.")}</p>
+  {social_links(t, "socials socials-lg")}
+</div>"""
     return intro + section(two_col(side, f), cls="section-soft")
 
 
@@ -652,9 +671,13 @@ def legal(t, eyebrow, title, html_fr, html_en):
       lambda t: t("Mentions légales du site youthaidacademy.org.", "Legal notice for youthaidacademy.org."))
 def legal_notice(t):
     td = todo(t("à compléter", "to be completed"))
+    tel_fr = f'<br>Téléphone : <a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a>' if ORG_PHONE else ""
+    tel_en = f'<br>Phone: <a href="{phone_href(ORG_PHONE)}">{ORG_PHONE}</a>' if ORG_PHONE else ""
+    offices_fr = " · ".join(office_line(o, lambda fr, en: fr) for o in OFFICES)
+    offices_en = " · ".join(office_line(o, lambda fr, en: en) for o in OFFICES)
     return legal(t, t("Informations légales", "Legal"), t("Mentions légales", "Legal notice"),
                  f"""<h2>Éditeur du site</h2>
-<p>Youthaid Academy — {td}<br>Forme juridique : {td}<br>Siège social : {td}<br>Numéro RNA / SIREN : {td}<br>Directeur de la publication : {td}<br>Contact : via la <a href="contact.html">page Contact</a></p>
+<p>Youthaid Academy — {td}<br>Forme juridique : {td}<br>Siège social : {td}<br>Numéro RNA / SIREN : {td}<br>Directeur de la publication : {td}<br>Email : <a href="mailto:{ORG_EMAIL}">{ORG_EMAIL}</a>{tel_fr}<br>Implantations : {offices_fr}</p>
 <h2>Hébergement</h2>
 <p>Le site est hébergé par GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis — github.com.<br>Le nom de domaine est géré par Hostinger International Ltd.</p>
 <h2>Propriété intellectuelle</h2>
@@ -662,7 +685,7 @@ def legal_notice(t):
 <h2>Responsabilité</h2>
 <p>Youthaid Academy s’efforce de fournir des informations exactes et à jour, sans pouvoir garantir l’absence d’erreurs. Les liens vers d’autres sites n’engagent pas sa responsabilité.</p>""",
                  f"""<h2>Publisher</h2>
-<p>Youthaid Academy — {td}<br>Legal form: {td}<br>Registered office: {td}<br>Registration number: {td}<br>Publication director: {td}<br>Contact: via the <a href="contact.html">Contact page</a></p>
+<p>Youthaid Academy — {td}<br>Legal form: {td}<br>Registered office: {td}<br>Registration number: {td}<br>Publication director: {td}<br>Email: <a href="mailto:{ORG_EMAIL}">{ORG_EMAIL}</a>{tel_en}<br>Offices: {offices_en}</p>
 <h2>Hosting</h2>
 <p>The site is hosted by GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA — github.com.<br>The domain name is managed by Hostinger International Ltd.</p>
 <h2>Intellectual property</h2>
@@ -688,7 +711,7 @@ def privacy(t):
 <h2>Mineurs</h2>
 <p>Pour les jeunes de moins de 15 ans, l’accord d’un parent ou représentant légal est nécessaire.</p>
 <h2>Vos droits</h2>
-<p>Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité. Pour les exercer, écrivez-nous via la <a href="contact.html">page Contact</a>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+<p>Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité. Pour les exercer, écrivez-nous à <a href="mailto:contact@youthaidacademy.org">contact@youthaidacademy.org</a> ou via la <a href="contact.html">page Contact</a>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
 <h2>Cookies</h2>
 <p>Voir notre <a href="cookies.html">politique de cookies</a>.</p>""",
                  """<p>Youthaid Academy cares deeply about protecting your personal data, especially that of the young people we support. This policy explains what data we collect, why, and your rights under the General Data Protection Regulation (GDPR).</p>
@@ -703,7 +726,7 @@ def privacy(t):
 <h2>Minors</h2>
 <p>For young people under 15, consent from a parent or legal guardian is required.</p>
 <h2>Your rights</h2>
-<p>You have the right to access, rectify, erase, restrict, object and port your data. To exercise them, write to us via the <a href="contact.html">Contact page</a>. You may also contact the CNIL (cnil.fr).</p>
+<p>You have the right to access, rectify, erase, restrict, object and port your data. To exercise them, email <a href="mailto:contact@youthaidacademy.org">contact@youthaidacademy.org</a> or use the <a href="contact.html">Contact page</a>. You may also contact the CNIL (cnil.fr).</p>
 <h2>Cookies</h2>
 <p>See our <a href="cookies.html">cookie policy</a>.</p>""")
 
