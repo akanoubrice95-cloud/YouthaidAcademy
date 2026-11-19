@@ -545,3 +545,85 @@ p { margin: 0 0 1em; }
 @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes pop-in { from { scale: .6; opacity: 0; } to { scale: 1; opacity: 1; } }
 @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(120px, 60px) scale(1.25); } }
+
+/* ==========================================================
+   « Pour qui ? » — cartes photo
+   ========================================================== */
+.who-card { padding-top: 0; overflow: hidden; isolation: isolate; }
+.who-media {
+  position: relative; margin: 0 -28px; aspect-ratio: 5 / 4; overflow: hidden;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; background: var(--soft);
+}
+.who-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale .9s var(--ease-out), filter .6s; }
+.who-media::after { /* voile coloré qui monte au survol */
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s;
+  background: linear-gradient(to top, var(--who-c, var(--teal)) 0%, transparent 55%); mix-blend-mode: multiply;
+}
+.who-teal { --who-c: rgba(22, 179, 197, .55); }
+.who-sun { --who-c: rgba(246, 168, 35, .55); }
+.who-red { --who-c: rgba(238, 42, 79, .5); }
+.who-orange { --who-c: rgba(255, 91, 20, .45); }
+.who-card:hover .who-media img { scale: 1.08; }
+.who-card:hover .who-media::after { opacity: 1; }
+.who-icon { position: relative; z-index: 2; margin-top: -27px; box-shadow: 0 0 0 5px #fff, 0 8px 20px rgba(18, 20, 26, .12); }
+.who-card h3 { margin-top: 4px; }
+
+/* Duo de bénévoles */
+.duo { display: grid; grid-template-columns: 1fr 1fr; height: 100%; gap: 3px; background: #fff; }
+.duo img { min-width: 0; transition: scale .9s var(--ease-out), translate .9s var(--ease-out); }
+.who-card:hover .duo img:first-child { translate: -4px 0; }
+.who-card:hover .duo img:last-child { translate: 4px 0; }
+
+/* Mur de logos partenaires */
+.org-wall {
+  height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px;
+  background: radial-gradient(circle at 20% 10%, var(--orange-soft), transparent 60%), radial-gradient(circle at 90% 90%, var(--sun-soft), transparent 55%), #fbfaf7;
+}
+.org-tile {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  background: #fff; border-radius: 14px; box-shadow: 0 4px 14px rgba(18, 20, 26, .07); color: var(--ink-2);
+  transition: transform .5s var(--ease-spring), box-shadow .3s;
+}
+.org-tile small { font-size: .72rem; font-weight: 700; letter-spacing: .02em; color: var(--muted); }
+.org-tile:nth-child(1) svg { color: var(--teal); }
+.org-tile:nth-child(2) svg { color: #c97f00; }
+.org-tile:nth-child(3) svg { color: var(--red); }
+.org-you { background: transparent; box-shadow: none; overflow: hidden; }
+.org-you::before { /* bordure en pointillés */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px dashed rgba(255, 91, 20, .55);
+}
+.org-you b { font-size: 1.6rem; line-height: 1; color: var(--orange); }
+.org-you small { color: var(--orange); }
+.who-card:hover .org-tile { transform: translateY(-4px); }
+.who-card:hover .org-tile:nth-child(2) { transition-delay: .05s; }
+.who-card:hover .org-tile:nth-child(3) { transition-delay: .1s; }
+.who-card:hover .org-tile:nth-child(4) { transition-delay: .15s; }
+
+@media (max-width: 600px) { .who-media { margin: 0 -22px; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Révélation en rideau + zoom arrière quand la carte entre à l'écran */
+  .motion .who-card.rv .who-media { clip-path: inset(100% 0 0 0); transition: clip-path 1.1s var(--ease-out) calc(var(--d, 0s) + .1s); }
+  .motion .who-card.rv.in .who-media { clip-path: inset(0 0 0 0); }
+  .motion .who-card.rv .who-media img { scale: 1.25; }
+  .motion .who-card.rv.in .who-media img { scale: 1; transition: scale 1.6s var(--ease-out) calc(var(--d, 0s) + .1s), translate .9s var(--ease-out), filter .6s; }
+  .motion .who-card.rv.in:hover .who-media img { scale: 1.08; transition: scale .9s var(--ease-out), translate .9s var(--ease-out); }
+  .motion .who-card.rv .duo img:first-child { translate: -30% 0; }
+  .motion .who-card.rv .duo img:last-child { translate: 30% 0; }
+  .motion .who-card.rv.in .duo img { translate: 0 0; }
+  .motion .who-card.rv.in:hover .duo img:first-child { translate: -4px 0; }
+  .motion .who-card.rv.in:hover .duo img:last-child { translate: 4px 0; }
+  .motion .who-card.rv .who-icon { scale: 0; rotate: -90deg; transition: scale .7s var(--ease-spring) calc(var(--d, 0s) + .7s), rotate .7s var(--ease-spring) calc(var(--d, 0s) + .7s); }
+  .motion .who-card.rv.in .who-icon { scale: 1; rotate: 0deg; }
+  /* Tuiles du mur de logos : apparition en cascade puis flottement */
+  .motion .who-card.rv .org-tile { opacity: 0; scale: .5; transition: opacity .6s var(--ease-out), scale .7s var(--ease-spring), transform .5s var(--ease-spring); transition-delay: calc(var(--d, 0s) + .5s + var(--k) * .12s); }
+  .motion .who-card.rv.in .org-tile { opacity: 1; scale: 1; }
+  .motion .who-card.rv.in .org-tile { animation: tile-float 5s ease-in-out calc(var(--k) * -1.2s) infinite; }
+  .motion .org-you::before { border: 0; background: conic-gradient(from var(--ang, 0deg), var(--orange), var(--sun), var(--red), var(--teal), var(--orange)); padding: 2px;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: spin-border 4s linear infinite; }
+  .motion .org-you b { animation: plus-pulse 2.2s ease-in-out infinite; }
+}
+@property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes spin-border { to { --ang: 360deg; } }
+@keyframes tile-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+@keyframes plus-pulse { 0%, 100% { scale: 1; } 50% { scale: 1.25; } }

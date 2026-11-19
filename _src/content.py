@@ -107,20 +107,42 @@ def home(t):
         (t("Je saisis ma chance", "I seize my chance"), t("Je candidate aux opportunités qui me correspondent : stage, emploi, alternance, bourse…", "I apply to opportunities that suit me: internship, job, apprenticeship, scholarship…")),
     ]), cls="section-soft", head=(t("Comment ça marche", "How it works"), t("Ton parcours en 4 étapes", "Your journey in 4 steps")))
 
-    who = section(cards([
-        dict(ic="spark", title=t("Tu es un jeune", "You’re a young person"),
-             text=t("Tu as des rêves, des questions ou besoin d’un coup de pouce ? Rejoins la communauté.", "Got dreams, questions or need a boost? Join the community."),
-             link="adherer.html", link_label=t("Rejoindre", "Join")),
-        dict(ic="chat", title=t("Tu veux transmettre", "You want to give back"),
-             text=t("Partage ton expérience et aide un jeune à trouver sa voie en devenant mentor.", "Share your experience and help a young person find their way as a mentor."),
-             link="devenir-mentor.html", link_label=t("Devenir mentor", "Become a mentor")),
-        dict(ic="hand", title=t("Tu as du temps à donner", "You have time to give"),
-             text=t("Ateliers, événements, communication : rejoins nos bénévoles.", "Workshops, events, communications: join our volunteers."),
-             link="devenir-benevole.html", link_label=t("Devenir bénévole", "Volunteer")),
-        dict(ic="building", title=t("Tu représentes une organisation", "You represent an organisation"),
-             text=t("Entreprises, institutions, associations : publiez des offres et construisons ensemble.", "Companies, institutions, associations: post opportunities and let’s build together."),
-             link="partenaires.html", link_label=t("Devenir partenaire", "Become a partner")),
-    ], cols=4), head=(t("Pour qui ?", "Who is it for?"), t("Chacun a sa place chez Youthaid", "There’s a place for everyone at Youthaid")))
+    def who_card(color, ic, title, text, link, label, media):
+        return (f'<article class="card hover who-card who-{color}">'
+                f'<div class="who-media">{media}</div>'
+                f'<div class="icon c-{color} who-icon">{icon(ic)}</div>'
+                f'<h3>{title}</h3><p>{text}</p>'
+                f'<a class="card-link" href="{link}">{label} →</a></article>')
+
+    def photo(src, alt, pos="50% 30%"):
+        return (f'<img src="%BASE%assets/img/{src}" alt="{alt}" loading="lazy" decoding="async" '
+                f'style="object-position:{pos}">')
+
+    org_wall = (
+        '<div class="org-wall" role="img" aria-label="' + t("Entreprises, institutions et associations partenaires", "Partner companies, institutions and associations") + '">'
+        + "".join(f'<span class="org-tile" style="--k:{k}">{icon(ic, 26)}<small>{lab}</small></span>' for k, (ic, lab) in enumerate([
+            ("building", t("Entreprise", "Company")), ("shield", "Institution"), ("heart", "Association")]))
+        + '<span class="org-tile org-you" style="--k:3"><b>+</b><small>' + t("Votre logo ici", "Your logo here") + '</small></span>'
+        + '</div>')
+
+    who = section('<div class="grid grid-4 who-grid">' + "".join([
+        who_card("teal", "spark", t("Tu es un jeune", "You’re a young person"),
+                 t("Tu as des rêves, des questions ou besoin d’un coup de pouce ? Rejoins la communauté.", "Got dreams, questions or need a boost? Join the community."),
+                 "adherer.html", t("Rejoindre", "Join"),
+                 photo("qui-jeune.jpg", t("Jeune femme souriante, membre de la communauté Youthaid", "Smiling young woman, member of the Youthaid community"), "50% 25%")),
+        who_card("sun", "chat", t("Tu veux transmettre", "You want to give back"),
+                 t("Partage ton expérience et aide un jeune à trouver sa voie en devenant mentor.", "Share your experience and help a young person find their way as a mentor."),
+                 "devenir-mentor.html", t("Devenir mentor", "Become a mentor"),
+                 photo("qui-mentor.jpg", t("Mentor Youthaid Academy", "Youthaid Academy mentor"), "50% 20%")),
+        who_card("red", "hand", t("Tu as du temps à donner", "You have time to give"),
+                 t("Ateliers, événements, communication : rejoins nos bénévoles.", "Workshops, events, communications: join our volunteers."),
+                 "devenir-benevole.html", t("Devenir bénévole", "Volunteer"),
+                 '<div class="duo">' + photo("qui-benevole2.jpg", t("Bénévole en sweat Youthaid Academy", "Volunteer in a Youthaid Academy sweatshirt"), "50% 15%")
+                 + photo("qui-benevole1.jpg", t("Bénévole en tee-shirt Youthaid Academy", "Volunteer in a Youthaid Academy T-shirt"), "50% 20%") + "</div>"),
+        who_card("orange", "building", t("Tu représentes une organisation", "You represent an organisation"),
+                 t("Entreprises, institutions, associations : publiez des offres et construisons ensemble.", "Companies, institutions, associations: post opportunities and let’s build together."),
+                 "partenaires.html", t("Devenir partenaire", "Become a partner"), org_wall),
+    ]) + "</div>", head=(t("Pour qui ?", "Who is it for?"), t("Chacun a sa place chez Youthaid Academy", "There’s a place for everyone at Youthaid Academy")))
 
     values = section(
         '<div class="grid grid-3">' + "".join(
