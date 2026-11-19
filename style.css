@@ -135,3 +135,10 @@ footer {
 .search-results .r-snippet { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
 .search-results mark { background: rgba(56, 189, 248, 0.35); color: inherit; border-radius: 2px; }
 .search-results .r-empty { padding: 8px 10px; color: var(--muted); font-size: 0.9rem; }
+
+h1 {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
