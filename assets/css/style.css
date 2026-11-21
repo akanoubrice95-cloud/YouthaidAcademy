@@ -496,7 +496,7 @@ p { margin: 0 0 1em; }
 /* ==========================================================
    « Pour qui ? » — cartes photo
    ========================================================== */
-.who-card { padding-top: 0; overflow: hidden; isolation: isolate; }
+.who-card { overflow: hidden; isolation: isolate; }
 .who-media {
   position: relative; margin: 0 -28px; aspect-ratio: 5 / 4; overflow: hidden;
   border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0; background: var(--soft);
@@ -512,7 +512,7 @@ p { margin: 0 0 1em; }
 .who-orange { --who-c: rgba(255, 91, 20, .45); }
 .who-card:hover .who-media img { scale: 1.08; }
 .who-card:hover .who-media::after { opacity: 1; }
-.who-icon { position: relative; z-index: 2; margin-top: -27px; box-shadow: 0 0 0 5px #fff, 0 8px 20px rgba(18, 20, 26, .12); }
+.who-icon { position: relative; z-index: 2; }
 .who-card h3 { margin-top: 4px; }
 
 

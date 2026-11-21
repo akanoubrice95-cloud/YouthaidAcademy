@@ -100,40 +100,25 @@ def home(t):
         (t("Je saisis ma chance", "I seize my chance"), t("Je candidate aux opportunités qui me correspondent : stage, emploi, alternance, bourse…", "I apply to opportunities that suit me: internship, job, apprenticeship, scholarship…")),
     ]), cls="section-soft", head=(t("Comment ça marche", "How it works"), t("Ton parcours en 4 étapes", "Your journey in 4 steps")))
 
-    def who_card(color, ic, title, text, link, label, media):
+    def who_card(color, ic, title, text, link, label):
         return (f'<article class="card hover who-card who-{color}">'
-                f'<div class="who-media">{media}</div>'
                 f'<div class="icon c-{color} who-icon">{icon(ic)}</div>'
                 f'<h3>{title}</h3><p>{text}</p>'
                 f'<a class="card-link" href="{link}">{label} →</a></article>')
 
-    def photo(src, alt, pos="50% 30%"):
-        return (f'<img src="%BASE%assets/img/{src}" alt="{alt}" loading="lazy" decoding="async" '
-                f'style="object-position:{pos}">')
-
-    org_wall = (
-        '<div class="org-wall" role="img" aria-label="' + t("Entreprises, institutions et associations partenaires", "Partner companies, institutions and associations") + '">'
-        + "".join(f'<span class="org-tile" style="--k:{k}">{icon(ic, 26)}<small>{lab}</small></span>' for k, (ic, lab) in enumerate([
-            ("building", t("Entreprise", "Company")), ("shield", "Institution"), ("heart", "Association")]))
-        + '<span class="org-tile org-you" style="--k:3"><b>+</b><small>' + t("Votre logo ici", "Your logo here") + '</small></span>'
-        + '</div>')
-
     who = section('<div class="grid grid-4 who-grid">' + "".join([
         who_card("teal", "spark", t("Tu es un jeune", "You’re a young person"),
                  t("Tu as des rêves, des questions ou besoin d’un coup de pouce ? Rejoins la communauté.", "Got dreams, questions or need a boost? Join the community."),
-                 "adherer.html", t("Rejoindre", "Join"),
-                 photo("qui-jeune.jpg", t("Jeune femme ivoirienne lors d’un événement jeunesse à Abidjan", "Young Ivorian woman at a youth event in Abidjan"), "50% 40%")),
+                 "adherer.html", t("Rejoindre", "Join")),
         who_card("sun", "chat", t("Tu veux transmettre", "You want to give back"),
                  t("Partage ton expérience et aide un jeune à trouver sa voie en devenant mentor.", "Share your experience and help a young person find their way as a mentor."),
-                 "devenir-mentor.html", t("Devenir mentor", "Become a mentor"),
-                 photo("qui-mentor.jpg", t("Séance de travail entre jeunes à Abidjan, autour d’une table en pagne", "Young people working together in Abidjan around a wax-print covered table"), "50% 40%")),
+                 "devenir-mentor.html", t("Devenir mentor", "Become a mentor")),
         who_card("red", "hand", t("Tu as du temps à donner", "You have time to give"),
                  t("Ateliers, événements, communication : rejoins nos bénévoles.", "Workshops, events, communications: join our volunteers."),
-                 "devenir-benevole.html", t("Devenir bénévole", "Volunteer"),
-                 photo("qui-benevoles.jpg", t("Groupe de jeunes bénévoles ivoiriens, en tee-shirts assortis, à Abidjan", "Group of young Ivorian volunteers in matching T-shirts in Abidjan"), "50% 30%")),
+                 "devenir-benevole.html", t("Devenir bénévole", "Volunteer")),
         who_card("orange", "building", t("Tu représentes une organisation", "You represent an organisation"),
                  t("Entreprises, institutions, associations : publiez des offres et construisons ensemble.", "Companies, institutions, associations: post opportunities and let’s build together."),
-                 "partenaires.html", t("Devenir partenaire", "Become a partner"), org_wall),
+                 "partenaires.html", t("Devenir partenaire", "Become a partner")),
     ]) + "</div>", head=(t("Pour qui ?", "Who is it for?"), t("Chacun a sa place chez Youthaid Academy", "There’s a place for everyone at Youthaid Academy")))
 
     values = section(
