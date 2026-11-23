@@ -7,6 +7,9 @@ SITE_URL = "https://youthaidacademy.org"
 # ---------- Coordonnées officielles de la fondation ----------
 ORG_EMAIL = "contact@youthaidacademy.org"
 ORG_PHONE = "+33 7 66 16 10 14"
+# Compte PayPal qui reçoit les dons, contributions et paiements.
+PAYPAL_EMAIL = "akanoubrice95@gmail.com"
+PAYPAL_CURRENCY = "EUR"
 OFFICES = [
     dict(district="Cocody", city="Abidjan", region="District autonome d’Abidjan",
          country_fr="Côte d’Ivoire", country_en="Côte d’Ivoire", cc="CI"),
@@ -52,6 +55,21 @@ def whatsapp_href(t):
 
 def wa_icon(size=20):
     return f'<svg viewBox="0 0 24 24" width="{size}" height="{size}" aria-hidden="true">{WA_SVG}</svg>'
+
+
+def paypal_href(t):
+    """Lien vers la page de don PayPal sécurisée (montant libre, carte bancaire ou compte PayPal)."""
+    from urllib.parse import urlencode
+    params = {"business": PAYPAL_EMAIL, "currency_code": PAYPAL_CURRENCY,
+              "item_name": t("Don à Youthaid Academy", "Donation to Youthaid Academy")}
+    return "https://www.paypal.com/donate/?" + urlencode(params)
+
+
+def paypal_btn(t, label=None):
+    """Bouton « Donner avec PayPal » (s'ouvre dans un nouvel onglet)."""
+    label = label or t("Donner avec PayPal", "Donate with PayPal")
+    return (f'<a class="btn btn-primary" href="{paypal_href(t)}" target="_blank" rel="noopener noreferrer" '
+            f'aria-label="{label} ({t("nouvel onglet", "new tab")})">{label}</a>')
 
 
 def phone_href(num):

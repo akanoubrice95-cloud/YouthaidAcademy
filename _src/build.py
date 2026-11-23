@@ -268,6 +268,9 @@ def main():
     # 404 : GitHub Pages utilise /404.html pour toutes les langues ; on retire la copie anglaise.
     (ROOT / "en" / "404.html").unlink(missing_ok=True)
 
+    import datetime
+    TODAY = datetime.date.today().isoformat()
+    INDEXNOW_KEY = "ff307ba744f040519b391ad732d06d7b"
     urls = []
     for slug in PAGES:
         if slug == "404":
@@ -276,7 +279,9 @@ def main():
         urls += [f"{SITE_URL}/{p}", f"{SITE_URL}/en/{p}"]
     (ROOT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+        + "".join(f"  <url><loc>{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+    # IndexNow (Bing, Yahoo, DuckDuckGo, Ecosia, Yandex, Seznam, Naver) : fichier-clé servi à la racine
+    (ROOT / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
     (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n", encoding="utf-8")
     print(f"{len(written)} pages générées (version {VERSION})")
 

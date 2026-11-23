@@ -5,7 +5,7 @@ t(fr, en) choisit le texte selon la langue.
 Ajouter une page ici l'ajoute automatiquement au site, à la recherche et au sitemap.
 """
 from lib import (LOGO_MARK, OFFICES, ORG_EMAIL, ORG_PHONE, btn, btns, card, cards, checklist, cta_band, empty, faq, field, form,
-                 icon, office_line, page_hero, wa_icon, whatsapp_href, row, section, social_links, steps, todo, two_col)
+                 icon, office_line, page_hero, paypal_btn, wa_icon, whatsapp_href, row, section, social_links, steps, todo, two_col)
 
 PAGES = []
 
@@ -516,9 +516,9 @@ def donate(t):
     ]), head=(t("À quoi sert votre don", "What your donation funds"), t("Un impact concret", "Real impact")))
     how = section(two_col(
         f"<div><h2>{t('Comment donner', 'How to give')}</h2>"
-        f"<p>{t('Le don en ligne sécurisé (ponctuel ou mensuel) arrive très prochainement, avec un reçu envoyé automatiquement.', 'Secure online giving (one-off or monthly) is coming very soon, with a receipt sent automatically.')}</p>"
-        f"<p>{t('En attendant, contactez-nous pour faire un don ou soutenir un programme précis : nous vous répondrons rapidement.', 'In the meantime, contact us to make a donation or support a specific programme: we’ll get back to you quickly.')}</p>"
-        + btns(btn("contact.html", t("Nous contacter pour donner", "Contact us to give"))) + "</div>",
+        f"<p>{t('Faites un don en ligne en toute sécurité avec PayPal : choisissez librement le montant et payez par carte bancaire ou avec votre compte PayPal. Un reçu vous est envoyé automatiquement par email.', 'Give online securely with PayPal: choose any amount and pay by card or with your PayPal account. A receipt is sent to you automatically by email.')}</p>"
+        f"<p>{t('Vous souhaitez soutenir un programme précis ou faire un don autrement ? Contactez-nous : nous vous répondrons rapidement.', 'Want to support a specific programme or give another way? Contact us: we’ll get back to you quickly.')}</p>"
+        + btns(paypal_btn(t), btn("contact.html", t("Nous contacter", "Contact us"), "outline")) + "</div>",
         '<div class="notice">' + t("<strong>Transparence.</strong> Nous publierons chaque année l’utilisation des fonds reçus dans notre rapport d’impact.",
                                    "<strong>Transparency.</strong> Each year we’ll publish how the funds we receive are used in our impact report.") + "</div>"
         + '<div class="notice">' + t("<strong>Entreprises et fondations.</strong> Mécénat, subventions, soutien à un programme : parlons-en ensemble.",
@@ -681,7 +681,8 @@ def faq_page(t):
          t("Le catalogue Youthaid Academy’s Compétences ouvrira progressivement. Inscris-toi pour être prévenu.",
            "The Youthaid Academy’s Compétences catalogue will open step by step. Sign up to be notified.")),
         (t("Comment faire un don ?", "How can I donate?"),
-         t("Le don en ligne arrive bientôt. En attendant, contactez-nous via la page Contact.", "Online giving is coming soon. In the meantime, contact us via the Contact page.")),
+         t("Rendez-vous sur la page <a href=\"don.html\">Faire un don</a> et cliquez sur « Donner avec PayPal » : vous pouvez payer par carte bancaire ou avec votre compte PayPal, du montant de votre choix.",
+           "Go to the <a href=\"don.html\">Donate</a> page and click “Donate with PayPal”: you can pay by card or with your PayPal account, any amount you like.")),
         (t("Comment sont protégées mes données ?", "How is my data protected?"),
          t("Nous ne collectons que les données nécessaires et ne les vendons jamais. Consultez notre politique de confidentialité pour en savoir plus.",
            "We only collect the data we need and never sell it. See our privacy policy for details.")),
